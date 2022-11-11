@@ -19,11 +19,10 @@ docker-skaffold -- echo hello
 
 docker-compose arguments passthrough:
 
-```bash 
-docker-skaffold --project-name=test --file ./path/to/docker-compose.yml -- echo hello`
+```bash
+docker-skaffold --project-name=test --file ./path/to/docker-compose.yml -- echo hello
 ```
 
 automatically detect if `docker-compose` or `docker compose` should be used.
 
 passes through exit codes from wrapped command
-
