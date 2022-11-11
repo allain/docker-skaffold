@@ -7,6 +7,7 @@ import { spawn } from 'child_process'
 const dockerComposeArgs = []
 const commandParts = []
 
+let keep = false
 let foundSplit = false
 process.argv.forEach((arg, index) => {
   if (arg === '--') {
@@ -19,6 +20,8 @@ process.argv.forEach((arg, index) => {
 
   if (foundSplit) {
     commandParts.push(arg)
+  } else if (arg === '--keep') {
+    keep = true
   } else {
     dockerComposeArgs.push(arg)
   }
@@ -81,10 +84,12 @@ let finished = false
 async function finish(code = 0) {
   if (!finished) {
     finished = true
-    await dockerCompose(...dockerComposeArgs, 'down').catch((err) => {
-      console.error(err.message)
-      process.exit(1)
-    })
+    if (!keep) {
+      await dockerCompose(...dockerComposeArgs, 'down').catch((err) => {
+        console.error(err.message)
+        process.exit(1)
+      })
+    }
   }
   process.exit(code)
 }

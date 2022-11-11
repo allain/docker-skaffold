@@ -26,3 +26,9 @@ docker-skaffold --project-name=test --file ./path/to/docker-compose.yml -- echo 
 automatically detect if `docker-compose` or `docker compose` should be used.
 
 passes through exit codes from wrapped command
+
+you can keep the docker containers around if you pass `--keep`:
+
+```bash
+docker-skaffold --keep -- echo hello
+```
