@@ -13,6 +13,7 @@ process.argv.forEach((arg, index) => {
     foundSplit = true
     return
   } else if (index < 2) {
+    // skip node and path to docker-skaffold
     return
   }
 
@@ -22,6 +23,11 @@ process.argv.forEach((arg, index) => {
     dockerComposeArgs.push(arg)
   }
 })
+
+if (commandParts.length === 0) {
+  console.error('command not given. must follow --')
+  process.exit(1)
+}
 
 function dockerCompose(...args) {
   return new Promise((resolve, reject) => {
@@ -75,7 +81,10 @@ let finished = false
 async function finish(code = 0) {
   if (!finished) {
     finished = true
-    await dockerCompose(...dockerComposeArgs, 'down')
+    await dockerCompose(...dockerComposeArgs, 'down').catch((err) => {
+      console.error(err.message)
+      process.exit(1)
+    })
   }
   process.exit(code)
 }
