@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import which from 'which'
 
 import { spawn } from 'child_process'
@@ -40,7 +42,9 @@ function dockerCompose(...args) {
   })
 }
 
-await dockerCompose(...dockerComposeArgs, 'up', '-d')
+await dockerCompose(...dockerComposeArgs, 'up', '-d').catch(() =>
+  process.exit(1)
+)
 
 const [commandName, ...commandArgs] = commandParts
 
