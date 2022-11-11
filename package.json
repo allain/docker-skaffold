@@ -1,0 +1,10 @@
+{
+  "name": "docker-skaffold",
+  "version": "0.1.0",
+  "description": "Sets up and tears down docker-compose skaffolding around any command",
+  "bin": "./src/docker-skaffold.mjs",
+  "license": "ISC",
+  "dependencies": {
+    "which": "^3.0.0"
+  }
+}
