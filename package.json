@@ -1,6 +1,6 @@
 {
   "name": "docker-skaffold",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sets up and tears down docker-compose skaffolding around any command",
   "bin": {
     "docker-skaffold": "./src/docker-skaffold.mjs"
