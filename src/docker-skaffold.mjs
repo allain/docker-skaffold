@@ -8,6 +8,7 @@ const dockerComposeArgs = []
 const commandParts = []
 
 let keep = false
+let clean = true
 let foundSplit = false
 process.argv.forEach((arg, index) => {
   if (arg === '--') {
@@ -22,6 +23,8 @@ process.argv.forEach((arg, index) => {
     commandParts.push(arg)
   } else if (arg === '--keep') {
     keep = true
+  } else if (arg === '--no-clean') {
+    clean = false
   } else {
     dockerComposeArgs.push(arg)
   }
@@ -85,7 +88,11 @@ async function finish(code = 0) {
   if (!finished) {
     finished = true
     if (!keep) {
-      await dockerCompose(...dockerComposeArgs, 'down').catch((err) => {
+      const args = [...dockerComposeArgs, 'down']
+      if (clean) {
+        args.push('--volumes')
+      }
+      await dockerCompose(...args).catch((err) => {
         console.error(err.message)
         process.exit(1)
       })
